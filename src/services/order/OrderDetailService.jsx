@@ -18,4 +18,4 @@ class OrderDetailService {
 
 }
 
-export default orderDetailService;
+export default new OrderDetailService();

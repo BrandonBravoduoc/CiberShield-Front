@@ -25,3 +25,5 @@ class OrderStatusService {
     }
 
 }
+
+export default new OrderStatusService();

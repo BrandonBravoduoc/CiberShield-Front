@@ -9,7 +9,7 @@ class PaymentMethodService {
     }
 
     createPaymentMethod(paymentMethod) {
-        return api.post(`${BASE_URL}/`, paymentMethod);
+        return api.post(BASE_URL, paymentMethod);
     }
 
     deletePaymentMethod(id) {
