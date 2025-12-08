@@ -1,15 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-
-
-import Login from "./pages/Login/LoginPage";
-import Home from "./pages/Home/HomePage"; 
+import AuthLayout from "./components/layout/AuthLayout";
+import Login from "./pages/auth/Login";
 
 const App = () => {
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<h1 className="text-white text-center mt-20">404 Not Found</h1>} />
+            <Route path="/login" element={<AuthLayout/>} />
+             <Route index element={<Login/>} />
         </Routes>
     );
 };

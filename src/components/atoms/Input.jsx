@@ -1,31 +1,17 @@
-export const Input = ({label,name,type = "text", value, onChange, placeholder = "", error = "", className = "", required = false,}) => {
-  return (
-    <div className="flex flex-col gap-1 w-full">
-      
-      {label && (
-        <label htmlFor={name} className="text-sm font-medium text-gray-300">
-          {label}
-        </label>
-      )}
+import Button from "./Button";
 
-      <input
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        required={required}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={`
-          w-full px-3 py-2 rounded-md bg-white/5 text-white
-          outline-none border 
-          ${error ? "border-red-500" : "border-white/10"} 
-          focus:border-indigo-500 transition
-          ${className}
-        `}
-      />
+const Input = ({ label, type = "text", value,  onChange, className = "", ...props }) => {
 
-      {error && <span className="text-xs text-red-400">{error}</span>}
-    </div>
-  );
-};
+    return (
+        <div className={`flex flex-col mb-4 ${className}`}>
+            {label && <label className="mb-2 font-semibold">{label}</label>}
+            <input
+                type={type}
+                value={value}
+                onChange={onChange}
+                className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                {...props}
+            />
+        </div>
+    );
+}
