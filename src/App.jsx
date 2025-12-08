@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import {Routes, Route, useLocation} from 'react-router-dom'
-import './App.css'
+import { Routes, Route } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (<div className="App">
-    <h1>Welcome to CiberShield</h1>
-  </div>
-  )
-}
+import Login from "./pages/Login/LoginPage";
+import Home from "./pages/Home/HomePage"; 
 
-export default App
+const App = () => {
+    return (
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<h1 className="text-white text-center mt-20">404 Not Found</h1>} />
+        </Routes>
+    );
+};
+
+export default App;
