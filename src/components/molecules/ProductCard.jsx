@@ -9,7 +9,7 @@ const ProductCard = ({ product, onAddToCart }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full border border-gray-100 group">
-      <Link to={`/product/${id}`} className="block h-48 w-full overflow-hidden bg-gray-50 flex items-center justify-center p-4">
+      <Link to={`/product/${id}`} className="block h-48 w-full overflow-hidden bg-gray-50 items-center justify-center p-4">
         <Image 
           src={imageUrl || "https://via.placeholder.com/300"} 
           alt={productName} 
@@ -17,7 +17,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         />
       </Link>
 
-      <div className="p-5 flex flex-col flex-grow">
+      <div className="p-5 flex flex-col grow">
         <div className="mb-2">
             <span className="text-xs font-bold text-indigo-500 uppercase tracking-wider">
                 {tradeMarkName} • {categoryName}
