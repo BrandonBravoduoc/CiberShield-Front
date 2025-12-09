@@ -26,10 +26,8 @@ const DynamicForm = ({ fields = [], onSubmit, buttonText = "Enviar", serverError
     };
 
     return (
-        <form 
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-6 rounded-xl shadow-md flex flex-col gap-5"
-        >
+        <form className="space-y-6" onSubmit={handleSubmit}>
+        
         {serverErrors.general && (
             <div className="text-red-600 text-sm bg-red-100 px-3 py-2 rounded">
             {serverErrors.general}
