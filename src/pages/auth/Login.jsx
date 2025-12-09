@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DynamicForm from "../../components/organisms/DynamicForm";
 import { loginData } from "./data/AuthData";
-import authService from "../../services/auth/authService";
+import authService from "../../services/auth/AuthService";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { useAuth } from "../../context/AuthContext";
 
