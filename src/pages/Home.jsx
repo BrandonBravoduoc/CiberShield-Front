@@ -1,69 +1,65 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom'; 
+import { useSearchParams } from 'react-router-dom';
 import ProductService from '../services/product/ProductService';
 import HomeTemplate from '../components/templates/HomeTemplate';
 
 const Home = () => {
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+  const [cartCount, setCartCount] = useState(0);
   const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get('search') || ''; 
-
+  const searchTerm = searchParams.get('search') || '';
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
         setLoading(true);
-        console.log("1. Iniciando petición a la API..."); 
-        
         const response = await ProductService.getAllProducts();
-        
-        console.log("2. Respuesta completa de la API:", response);
-        console.log("3. Datos (response.data):", response.data); 
-
         if (Array.isArray(response.data)) {
-            setProducts(response.data);
+          setProducts(response.data);
         } else {
-            console.error("4. ERROR: Los datos no son un array. Son:", typeof response.data);
-            setError("Formato de datos incorrecto recibido del servidor.");
+          console.warn("Formato de respuesta inesperado:", response.data);
+          setProducts([]);
         }
-
       } catch (err) {
-        console.error("ERROR FATAL en fetch:", err);
-        setError("No se pudieron cargar los productos.");
+        console.error("Error al cargar productos:", err);
+        setError("Hubo un problema al cargar el catálogo. Intenta nuevamente.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchAllProducts();
-  }, []); 
-
+  }, []);
   const filteredProducts = useMemo(() => {
-    console.log("5. Buscando:", searchTerm); 
-    console.log("6. Productos disponibles para filtrar:", products);
-
     if (!searchTerm) return products;
 
+    const lowerSearch = searchTerm.toLowerCase();
+
     return products.filter((product) => {
-        if (!product.productName) {
-            console.warn("Producto sin nombre detectado:", product);
-            return false;
-        }
-        return product.productName.toLowerCase().includes(searchTerm.toLowerCase());
+      const name = product.productName?.toLowerCase() || '';
+      const brand = product.tradeMarkName?.toLowerCase() || '';
+      const category = product.categoryName?.toLowerCase() || '';
+      const subCategory = product.subCategoryName?.toLowerCase() || ''
+      return (
+        name.includes(lowerSearch) ||
+        brand.includes(lowerSearch) ||
+        category.includes(lowerSearch) ||
+        subCategory.includes(lowerSearch)
+      );
     });
   }, [searchTerm, products]);
-
-  console.log("7. Productos filtrados resultantes:", filteredProducts); 
-
+  const handleAddToCart = (product) => {
+    console.log(`Agregado al carrito: ${product.productName}`);
+    setCartCount(prev => prev + 1);
+  };
   return (
-    <HomeTemplate 
-      products={filteredProducts} 
-      loading={loading} 
+    <HomeTemplate
+      products={filteredProducts}
+      loading={loading}
       error={error}
-      onAddToCart={() => {}}
-      cartCount={0}
+      onAddToCart={handleAddToCart}
+      cartCount={cartCount}
     />
   );
 };

@@ -36,8 +36,6 @@ const HomeTemplate = ({ products, loading, error, onAddToCart, cartCount }) => {
         )}
 
       </main>
-
-      {/* FOOTER */}
       <Footer />
     </div>
   );
