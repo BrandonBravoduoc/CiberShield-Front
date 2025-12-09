@@ -15,10 +15,12 @@ const DynamicForm = ({ fields = [], onSubmit, buttonText = "Enviar", serverError
     );
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+    const { name, type, files, value } = e.target;
+
+    setFormData({
+        ...formData,
+        [name]: type === "file" ? files[0] : value,
+    });
     };
 
     const handleSubmit = (e) => {
