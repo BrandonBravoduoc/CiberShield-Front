@@ -1,19 +1,18 @@
 import Button from "./Button";
 
-const Input = ({ label, type = "text", value,  onChange, className = "", ...props }) => {
+const Input = ({ label, ...props }) => {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-100">
+        {label}
+      </label>
 
-    return (
-        <div className={`flex flex-col mb-4 ${className}`}>
-            {label && <label className="mb-2 font-semibold">{label}</label>}
-            <input
-                type={type}
-                value={value}
-                onChange={onChange}
-                className="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                {...props}
-            />
-        </div>
-    );
-}
+      <input
+        {...props}
+        className="mt-2 block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-indigo-500 focus:outline-2 focus:-outline-offset-2 sm:text-sm"
+      />
+    </div>
+  );
+};
 
 export default Input;
