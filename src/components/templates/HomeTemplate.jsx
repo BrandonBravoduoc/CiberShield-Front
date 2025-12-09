@@ -7,11 +7,7 @@ import Text from '../atoms/Text';
 const HomeTemplate = ({ products, loading, error, onAddToCart, cartCount }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-
-      {/* NAVBAR - SOLO PARA HOME */}
       <Navbar cartCount={cartCount} />
-
-      {/* CONTENIDO PRINCIPAL */}
       <main className="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         <div className="mb-8 text-center md:text-left">
