@@ -4,16 +4,21 @@ import DynamicForm from "../../components/organisms/DynamicForm";
 import { loginData } from "./data/AuthData";
 import authService from "../../services/auth/authService";
 import AuthLayout from "../../components/layouts/AuthLayout";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [serverErrors, setServerErrors] = useState({});
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (formData) => {
     try {
       const res = await authService.login(formData);
 
-      if (res.token) navigate("/");
+      if (res.token) {
+        login(res.user, res.token);
+        navigate("/");
+      }
     } catch (error) {
       setServerErrors({
         general: error.response?.data?.error || "Error inesperado"
