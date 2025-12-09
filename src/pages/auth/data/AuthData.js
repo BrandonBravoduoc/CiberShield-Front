@@ -8,6 +8,7 @@ export const registerData = [
   {name: "email", label: "Email", type: "email", placeholder: "Ingresa tu email", required: true},
   {name: "password", label: "Contraseña", type: "password", placeholder: "Crea una contraseña", required: true},
   {name: "confirmPassword", label: "Confirmar Contraseña", type: "password", placeholder: "Confirma tu contraseña", required: true},
+  {name: "imageUser", label: "Foto de Perfil", type: "file", placeholder: "Sube una foto de perfil", required: false},
 ]
 
 export const changePasswordData = [  

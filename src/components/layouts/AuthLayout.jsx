@@ -3,22 +3,26 @@ import { Outlet } from "react-router-dom";
 
 const AuthLayout = ({ title, subtitle, children }) => {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-100 px-4">
-      
-      <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8 flex flex-col gap-4">
-        
-        {title && (
-          <h1 className="text-2xl font-bold text-center text-gray-800">
-            {title}
-          </h1>
-        )}
+    <div className="min-h-screen bg-gray-900 flex flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img
+          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+          alt="Your Company"
+          className="mx-auto h-10 w-auto"
+        />
+
+        <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-white">
+          {title}
+        </h2>
 
         {subtitle && (
-          <p className="text-center text-gray-500 -mt-2 mb-4">
+          <p className="mt-2 text-center text-sm text-gray-400">
             {subtitle}
           </p>
         )}
+      </div>
 
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         {children}
       </div>
     </div>
