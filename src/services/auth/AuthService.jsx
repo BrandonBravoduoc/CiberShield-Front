@@ -4,13 +4,15 @@ const BASE_URL = '/auth';
 
 const authService = {
 
-  login: async (formData) => {
+   login: async (formData) => {
     const response = await api.post(`${BASE_URL}/signin`, formData);
 
     if (response.data.token) {
+        
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
     }
+
     return response.data;
     },
 
@@ -30,7 +32,7 @@ const authService = {
             formData.append('imageUser', formDataObject.imageUser);
         }
 
-       const response = await axios.post(`${API_URL}/register`, formData, {
+       const response = await api.post(`${BASE_URL}/register`, formData, {
         headers: {
             "Content-Type": "multipart/form-data",
             },

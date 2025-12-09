@@ -1,23 +1,26 @@
-import { useState} from "react";
+import { useState } from "react";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
 import { set } from "react-hook-form";
 
-const DynamicForm = ({ fields = [], onSubmit, buttonText = "Enviar", serverErrors = {}}) => {
+const DynamicForm = ({ fields = [], onSubmit, buttonText = "Enviar", serverErrors = {} }) => {
 
     const [formData, setFormData] = useState(
-        fields.reduce((acc, field) => { {
-            acc[field.name] = "";
-            return acc;
-        }}, {})
+        fields.reduce((acc, field) => {
+            {
+                acc[field.name] = "";
+                return acc;
+            }
+        }, {})
     );
 
-
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+    const { name, type, files, value } = e.target;
+
+    setFormData({
+        ...formData,
+        [name]: type === "file" ? files[0] : value,
+    });
     };
 
     const handleSubmit = (e) => {
@@ -27,37 +30,37 @@ const DynamicForm = ({ fields = [], onSubmit, buttonText = "Enviar", serverError
 
     return (
         <form className="space-y-6" onSubmit={handleSubmit}>
-        
-        {serverErrors.general && (
-            <div className="text-red-600 text-sm bg-red-100 px-3 py-2 rounded">
-            {serverErrors.general}
-            </div>
-        )}
 
-        {fields.map((field) => (
-            <div key={field.name} className="flex flex-col">
-            
-            <Input
-                label={field.label}
-                name={field.name}
-                type={field.type}
-                placeholder={field.placeholder}
-                value={formData[field.name]}
-                onChange={handleChange}
-            />
-            {serverErrors[field.name] && (
-                <span className="text-red-500 text-sm mt-1">
-                {serverErrors[field.name]}
-                </span>
+            {serverErrors.general && (
+                <div className="text-red-600 text-sm bg-red-100 px-3 py-2 rounded">
+                    {serverErrors.general}
+                </div>
             )}
-            </div>
-        ))}
 
-        <Button type="submit" className="w-full">
-            {buttonText}
-        </Button>
+            {fields.map((field) => (
+                <div key={field.name} className="flex flex-col">
+
+                    <Input
+                        label={field.label}
+                        name={field.name}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        value={formData[field.name]}
+                        onChange={handleChange}
+                    />
+                    {serverErrors[field.name] && (
+                        <span className="text-red-500 text-sm mt-1">
+                            {serverErrors[field.name]}
+                        </span>
+                    )}
+                </div>
+            ))}
+
+            <Button type="submit" className="w-full">
+                {buttonText}
+            </Button>
         </form>
-        );
-    };
+    );
+};
 
-    export default DynamicForm;
+export default DynamicForm;
