@@ -9,22 +9,16 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                const user = JSON.parse(storedUser);
-                if (user.token) {
-                    config.headers.Authorization = `Bearer ${user.token}`;
-                }
-            } catch (error) {
-                console.error("Error al leer el usuario", error);
-                localStorage.removeItem('user');
-            }
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
         }
+
         return config;
     },
     (error) => Promise.reject(error)
-);
+);;
 
 api.interceptors.response.use(
     (response) => response,

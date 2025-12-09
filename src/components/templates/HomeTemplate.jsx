@@ -8,7 +8,7 @@ const HomeTemplate = ({ products, loading, error, onAddToCart, cartCount }) => {
     <div className="min-h-screen bg-gray-50 flex flex-col">
 
       <Navbar cartCount={cartCount} />
-      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <main className="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         <div className="mb-8 text-center md:text-left">
           <Text variant="h1" className="text-4xl font-extrabold text-gray-900 tracking-tight">
