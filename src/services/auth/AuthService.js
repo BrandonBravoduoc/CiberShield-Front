@@ -9,10 +9,7 @@ const authService = {
     return response.data;
     },
 
-    logout: () => {
-        // El logout se maneja desde el contexto
-    },
-
+  
     register: async (formDataObject) => {
         const formData = new FormData();
 
