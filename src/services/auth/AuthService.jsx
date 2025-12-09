@@ -6,18 +6,11 @@ const authService = {
 
    login: async (formData) => {
     const response = await api.post(`${BASE_URL}/signin`, formData);
-
-    if (response.data.token) {
-        
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-    }
-
     return response.data;
     },
 
     logout: () => {
-        localStorage.removeItem('authToken');
+        // El logout se maneja desde el contexto
     },
 
     register: async (formDataObject) => {

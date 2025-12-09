@@ -6,7 +6,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cartCount, setCartCount] = useState(0); // Estado para el contador del carrito
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -27,17 +27,16 @@ const Home = () => {
 
   const handleAddToCart = (product) => {
     console.log("Producto agregado:", product);
-    setCartCount(prev => prev + 1); // Simulación simple de agregar al carrito
-    // Aquí podrías guardar en localStorage o Context
+    setCartCount(prev => prev + 1);
   };
 
   return (
-    <HomeTemplate 
-      products={products} 
-      loading={loading} 
+    <HomeTemplate
+      products={products}
+      loading={loading}
       error={error}
       onAddToCart={handleAddToCart}
-      cartCount={cartCount} // Pasamos el dato a la plantilla
+      cartCount={cartCount}
     />
   );
 };
