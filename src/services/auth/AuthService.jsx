@@ -39,6 +39,15 @@ const authService = {
         });
         return response.data;
     },
+
+    changePassword: async (formData) => {
+        const response = await api.patch(`/auth/me/change-password`, formData);
+        return response.data;
+    }
+
+
+
+
 };
 
 export default authService;
