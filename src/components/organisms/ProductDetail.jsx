@@ -25,7 +25,7 @@ const ProductDetailInfo = ({ product, onAddToCart }) => {
             <Text variant="h1" className="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2">
               {productName}
             </Text>
-          </div>
+          </div>  
           <div className="border-t border-b border-gray-200 py-4 my-4">
             <div className="flex items-center justify-between">
               <Text className="text-3xl font-bold text-gray-900">
