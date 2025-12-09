@@ -26,11 +26,6 @@ const ProductDetailInfo = ({ product, onAddToCart }) => {
               {productName}
             </Text>
           </div>
-
-          <Text variant="p" className="text-gray-600 text-lg leading-relaxed">
-            {description || "Descripción detallada del producto no disponible."}
-          </Text>
-
           <div className="border-t border-b border-gray-200 py-4 my-4">
             <div className="flex items-center justify-between">
               <Text className="text-3xl font-bold text-gray-900">
