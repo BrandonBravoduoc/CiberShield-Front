@@ -12,3 +12,5 @@ const Button = ({Children, className = "", ...props}) => {
     );
 
 }
+
+export default Button;

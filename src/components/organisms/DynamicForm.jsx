@@ -61,3 +61,5 @@ const DynamicForm = ({ fields = [], onSubmit, buttonText = "Enviar", serverError
         </form>
         );
     };
+
+    export default DynamicForm;

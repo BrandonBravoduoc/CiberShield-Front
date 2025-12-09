@@ -15,3 +15,5 @@ const Input = ({ label, type = "text", value,  onChange, className = "", ...prop
         </div>
     );
 }
+
+export default Input;

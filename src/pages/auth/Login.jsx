@@ -1,15 +1,15 @@
 import DynamicForm from "../../components/organisms/DynamicForm";
-import { loginData } from "./data/authData";
+import { loginData } from "./data/AuthData";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { useState } from "react";
-import axios from "axios";
+import authService from "../../services/auth/authService";
 
 const Login = () => {
   const [serverErrors, setServerErrors] = useState({});
 
   const handleLogin = async (formData) => {
     try {
-      const res = await axios.post("/api/auth/login", formData);
+      const res = await authService.login(formData);
       console.log("Login exitoso:", res.data);
       setServerErrors({});
       
