@@ -10,7 +10,6 @@ import Products from "./pages/admin/Products";
 import ProductForm from "./pages/admin/ProductForm";
 import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
-import CheckOut from "./pages/checkout/CheckOut";
 
 const App = () => {
     return (
