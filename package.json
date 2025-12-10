@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "karma start karma.conf.cjs --single-run",
+    "test:watch": "karma start"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -36,7 +38,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "jasmine-core": "^5.12.1",
+    "jasmine-core": "^5.13.0",
     "karma": "^6.4.4",
     "karma-babel-preprocessor": "^8.0.2",
     "karma-chrome-launcher": "^3.2.0",
