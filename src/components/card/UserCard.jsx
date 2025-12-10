@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Image from "../atoms/Image";
 import Text from "../atoms/Text";
 import Button from "../atoms/Button";
@@ -7,6 +8,7 @@ import userService from "../../services/user/UserService";
 import contactService from "../../services/user/ContactService";
 
 const UserCard = ({ profile, fields, reloadProfile }) => {
+  const navigate = useNavigate();
 
   const [editMode, setEditMode] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
@@ -155,9 +157,17 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
               </p>
             )}
 
-            <Button className="mt-3 w-full" onClick={() => setEditMode(true)}>
-              Editar información
-            </Button>
+            <div className="flex flex-col gap-2 mt-3">
+              <Button className="w-full" onClick={() => setEditMode(true)}>
+                Editar información
+              </Button>
+              <Button 
+                className="w-full bg-gray-700 hover:bg-gray-600" 
+                onClick={() => navigate("/admin")}
+              >
+                Panel de Administración
+              </Button>
+            </div>
           </div>
         )}
 

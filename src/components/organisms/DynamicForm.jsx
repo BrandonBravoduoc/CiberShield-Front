@@ -13,12 +13,15 @@ const DynamicForm = ({
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    const initial = fields.reduce((acc, field) => {
-      acc[field.name] = initialValues[field.name] ?? "";
-      return acc;
-    }, {});
+    const initial = {};
+
+    fields.forEach(field => {
+      initial[field.name] = initialValues[field.name] ?? "";
+    });
+
     setFormData(initial);
-  }, [fields, initialValues]);
+
+  }, []);
 
   const handleChange = (e) => {
     const { name, type, files, value } = e.target;
