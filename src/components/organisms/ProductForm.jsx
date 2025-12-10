@@ -47,18 +47,28 @@ const ProductForm = () => {
     fetchData();
   }, [id]);
 
-  const getFilteredSubCategories = () => selectedCategory 
-    ? subCategories.filter(sc => sc.category?.id == selectedCategory)
-    : [];
+  const getFilteredSubCategories = () => {
+    if (!selectedCategory) return [];
+    const selectedCategoryName = categories.find(c => c.id === parseInt(selectedCategory))?.categoryName;
+    return subCategories.filter(sc => sc.categoryName === selectedCategoryName);
+  };
 
+  const handleCategoryChange = (name, value) => {
+    if (name === "category") {
+      setSelectedCategory(value);
+    }
+  };
+
+  const filteredSubCategories = getFilteredSubCategories();
+  
   const fields = [
     { name: "productName", label: "Nombre del Producto", type: "text", placeholder: "Ej: Antivirus Premium" },
     { name: "stock", label: "Stock", type: "number", placeholder: "Ej: 100" },
     { name: "price", label: "Precio", type: "number", placeholder: "Ej: 49.99" },
     { name: "image", label: "Imagen del Producto", type: "file" },
-    { name: "category", label: "Categoría", type: "select", options: categories.map((cat) => ({ value: cat.id, label: cat.categoryName || cat.name })) },
-    { name: "subCategory", label: "Subcategoría", type: "select", disabled: !selectedCategory, options: getFilteredSubCategories().map((sc) => ({ value: sc.id, label: sc.subCategoryName || sc.name })) },
-    { name: "tradeMark", label: "Marca", type: "select", options: tradeMarks.map((tm) => ({ value: tm.id, label: tm.tradeMarkName || tm.name })) },
+    { name: "category", label: "Categoría", type: "select", options: categories.map((cat) => ({ value: cat.id, label: cat.categoryName })) },
+    { name: "subCategory", label: "Subcategoría", type: "select", disabled: !selectedCategory, options: filteredSubCategories.map((sc) => ({ value: sc.id, label: sc.subCategoryName })) },
+    { name: "tradeMark", label: "Marca", type: "select", options: tradeMarks.map((tm) => ({ value: tm.id, label: tm.tradeMarkName })) },
   ];
 
   const initialValues = product ? {
@@ -97,13 +107,13 @@ const ProductForm = () => {
         {id ? "Editar Producto" : "Nuevo Producto"}
       </h2>
       <DynamicForm
-        fields={fields}
-        initialValues={initialValues}
-        buttonText={id ? "Actualizar" : "Crear"}
-        onSubmit={handleSubmit}
-        serverErrors={serverErrors}
-        onFieldChange={(name) => name === "category" && setSelectedCategory(arguments[1])}
-      />
+         fields={fields}
+         initialValues={initialValues}
+         buttonText={id ? "Actualizar" : "Crear"}
+         onSubmit={handleSubmit}
+         serverErrors={serverErrors}
+         onFieldChange={handleCategoryChange}
+       />
     </div>
   );
 };

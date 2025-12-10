@@ -4,10 +4,14 @@ import Text from '../atoms/Text';
 import SearchBar from '../molecules/SearchBar';
 import CategoryDropdown from '../molecules/CategoryDropdown';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 
 const Navbar = ({ cartCount = 0 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { cartItems } = useCart();
+  
+  const totalCartItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50 py-3 shadow-md">
@@ -92,12 +96,12 @@ const Navbar = ({ cartCount = 0 }) => {
                        100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
 
-                {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center w-5 h-5 
-                    text-xs font-bold leading-none text-white bg-indigo-600 rounded-full border-2 border-gray-900">
-                    {cartCount}
-                  </span>
-                )}
+                {totalCartItems > 0 && (
+                   <span className="absolute -top-1.5 -right-1.5 inline-flex items-center justify-center w-5 h-5 
+                     text-xs font-bold leading-none text-white bg-indigo-600 rounded-full border-2 border-gray-900">
+                     {totalCartItems}
+                   </span>
+                 )}
               </div>
 
               <span className="hidden xl:block font-semibold text-sm">Tu Carrito</span>

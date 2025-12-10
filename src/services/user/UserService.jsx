@@ -7,6 +7,11 @@ const userService = {
     return res.data;
   },
 
+  getAllUsers: async () => {
+    const res = await api.get("/admin/users");
+    return res;
+  },
+
   updateUser: async (data, imageFile) => {
     const form = new FormData();
 

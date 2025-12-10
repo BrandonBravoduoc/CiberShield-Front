@@ -6,6 +6,7 @@ import Button from "../atoms/Button";
 import DynamicForm from "../organisms/DynamicForm";
 import userService from "../../services/user/UserService";
 import contactService from "../../services/user/ContactService";
+import { isAdmin } from "../../utils/JwtUtil";
 
 const UserCard = ({ profile, fields, reloadProfile }) => {
   const navigate = useNavigate();
@@ -122,11 +123,13 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
             onChange={handleImageChange}
           />
 
-          <div className="flex gap-4 mt-4">
-            <Button onClick={() => fileInputRef.current.click()}>
-              Cambiar imagen
-            </Button>
-          </div>
+          {editMode && (
+            <div className="flex gap-4 mt-4">
+              <Button onClick={() => fileInputRef.current.click()}>
+                Cambiar imagen
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="my-6 border-t border-gray-800"></div>
@@ -161,12 +164,14 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
               <Button className="w-full" onClick={() => setEditMode(true)}>
                 Editar información
               </Button>
-              <Button 
-                className="w-full bg-gray-700 hover:bg-gray-600" 
-                onClick={() => navigate("/admin")}
-              >
-                Panel de Administración
-              </Button>
+              {isAdmin() && (
+                <Button 
+                  className="w-full bg-gray-700 hover:bg-gray-600" 
+                  onClick={() => navigate("/admin")}
+                >
+                  Panel de Administración
+                </Button>
+              )}
             </div>
           </div>
         )}

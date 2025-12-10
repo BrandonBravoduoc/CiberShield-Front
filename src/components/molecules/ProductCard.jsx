@@ -34,7 +34,10 @@ const ProductCard = ({ product, onAddToCart }) => {
         </Text>
 
         <div className="mt-4">
-          <Button onClick={() => onAddToCart(product)}>
+          <Button 
+            onClick={() => onAddToCart(product)}
+            className="!bg-gray-900 hover:!bg-gray-800 !text-white !focus-visible:outline-gray-900"
+          >
             Agregar al Carrito
           </Button>
         </div>

@@ -17,21 +17,35 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [users, products, orders] = await Promise.all([
+        const [usersRes, productsRes, ordersRes] = await Promise.all([
           UserService.getAllUsers(),
           ProductService.getAllProducts(),
           OrderService.getAllOrders(),
         ]);
 
-        const userData = Array.isArray(users.data) ? users.data : users.data?.data || [];
+        const users = usersRes.data || [];
+        const products = productsRes.data || [];
+        const orders = ordersRes.data || [];
+
+        const totalRevenue = orders.reduce((sum, order) => {
+          const amount = parseFloat(order.total) || 0;
+          return sum + amount;
+        }, 0);
+
         setStats({
-          totalUsers: userData.length || 0,
-          totalProducts: products.data?.length || 0,
-          totalOrders: orders.data?.length || 0,
-          revenue: orders.data?.reduce((sum, order) => sum + (order.total || 0), 0) || 0,
+          totalUsers: users.length,
+          totalProducts: products.length,
+          totalOrders: orders.length,
+          revenue: totalRevenue,
         });
       } catch (err) {
         console.error("Error cargando estadísticas:", err);
+        setStats({
+          totalUsers: 0,
+          totalProducts: 0,
+          totalOrders: 0,
+          revenue: 0,
+        });
       } finally {
         setLoading(false);
       }

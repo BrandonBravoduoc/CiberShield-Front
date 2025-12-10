@@ -30,17 +30,17 @@ const CartTemplate = ({ cartItems, onRemove, onUpdateQty, onCheckout }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-gray-950 flex flex-col">
       <Navbar cartCount={cartItems.length} />
 
       <main className="grow flex justify-center px-6 py-14">
-        <div className="w-[95%] bg-white rounded-2xl shadow-2xl p-10 border border-gray-200">
+        <div className="w-[95%] bg-gray-900 rounded-2xl shadow-2xl p-10 border border-gray-800">
 
-          <Text variant="h1" className="text-gray-900 text-4xl font-extrabold mb-10">
+          <Text variant="h1" className="text-white text-4xl font-extrabold mb-10">
             Carrito de Compras
           </Text>
 
-          <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-300">
+          <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-800">
             <table className="min-w-full text-lg">
               <TableHeader columns={columns} actions={actions} />
 
@@ -54,8 +54,8 @@ const CartTemplate = ({ cartItems, onRemove, onUpdateQty, onCheckout }) => {
             </table>
           </div>
 
-          <div className="flex justify-between items-center mt-12 border-t pt-8">
-            <Text className="text-3xl font-bold text-gray-900">
+          <div className="flex justify-between items-center mt-12 border-t border-gray-800 pt-8">
+            <Text className="text-3xl font-bold text-white">
               Total: ${total.toLocaleString("es-CL")}
             </Text>
 

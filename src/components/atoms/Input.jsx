@@ -7,6 +7,8 @@ const Input = ({
   value,
   onChange,
   placeholder,
+  options = [],
+  disabled = false,
 }) => {
   if (type === "file") {
     return (
@@ -47,6 +49,40 @@ const Input = ({
       </div>
     );
   }
+
+  if (type === "select") {
+    return (
+      <div>
+        {label && (
+          <label className="block text-sm font-medium text-gray-100 mb-1">
+            {label}
+          </label>
+        )}
+
+        <select
+          name={name}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+          className="
+            block w-full rounded-md bg-white/5 px-3 py-1.5 
+            text-sm text-white outline outline-white/10
+            placeholder-gray-500
+            focus:outline-2 focus:outline-indigo-500
+            disabled:opacity-50 disabled:cursor-not-allowed
+          "
+        >
+          <option value="">Seleccionar...</option>
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+
   return (
     <div>
       {label && (

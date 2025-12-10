@@ -10,14 +10,35 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product) => {
     setCartItems((prevItems) => {
       const itemExists = prevItems.find((item) => item.id === product.id);
+      const quantityToAdd = product.quantity || 1;
+      
       if (itemExists) {
+        const newQuantity = itemExists.quantity + quantityToAdd;
+        const maxStock = product.stock || 0;
+        
+        if (newQuantity > maxStock) {
+          console.warn(`No hay suficiente stock. Stock disponible: ${maxStock}, solicitado: ${newQuantity}`);
+          return prevItems.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: maxStock }
+              : item
+          );
+        }
+        
         return prevItems.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + (product.quantity || 1) }
+            ? { ...item, quantity: newQuantity }
             : item
         );
       } else {
-        return [...prevItems, { ...product, quantity: product.quantity || 1 }];
+        const maxStock = product.stock || 0;
+        
+        if (quantityToAdd > maxStock) {
+          console.warn(`No hay suficiente stock. Stock disponible: ${maxStock}, solicitado: ${quantityToAdd}`);
+          return [...prevItems, { ...product, quantity: maxStock }];
+        }
+        
+        return [...prevItems, { ...product, quantity: quantityToAdd }];
       }
     });
   };
@@ -26,9 +47,19 @@ export const CartProvider = ({ children }) => {
     if (newQuantity < 1) return;
 
     setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
+      prevItems.map((item) => {
+        if (item.id === id) {
+          const maxStock = item.stock || 0;
+          const quantity = Math.min(newQuantity, maxStock);
+          
+          if (newQuantity > maxStock) {
+            console.warn(`No hay suficiente stock. Stock disponible: ${maxStock}, solicitado: ${newQuantity}`);
+          }
+          
+          return { ...item, quantity };
+        }
+        return item;
+      })
     );
   };
 

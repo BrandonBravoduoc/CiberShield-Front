@@ -7,7 +7,8 @@ const DynamicForm = ({
   onSubmit,
   buttonText = "Enviar",
   serverErrors = {},
-  initialValues = {}
+  initialValues = {},
+  onFieldChange = null
 }) => {
 
   const [formData, setFormData] = useState({});
@@ -21,7 +22,7 @@ const DynamicForm = ({
 
     setFormData(initial);
 
-  }, []);
+  }, [JSON.stringify(initialValues)]);
 
   const handleChange = (e) => {
     const { name, type, files, value } = e.target;
@@ -30,6 +31,10 @@ const DynamicForm = ({
       ...formData,
       [name]: type === "file" ? files[0] : value,
     });
+
+    if (onFieldChange) {
+      onFieldChange(name, value);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -56,6 +61,8 @@ const DynamicForm = ({
             placeholder={field.placeholder}
             value={formData[field.name] || ""}
             onChange={handleChange}
+            options={field.options}
+            disabled={field.disabled}
           />
 
           {serverErrors?.[field.name] && (

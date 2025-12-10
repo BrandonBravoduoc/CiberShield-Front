@@ -13,7 +13,7 @@ const authService = {
     register: async (formDataObject) => {
         const formData = new FormData();
 
-        formData.append('userName', formDataObject.userName);
+        formData.append('userName', formDataObject.username);
         formData.append('email', formDataObject.email);
         formData.append('password', formDataObject.password);
         formData.append('confirmPassword', formDataObject.confirmPassword);
