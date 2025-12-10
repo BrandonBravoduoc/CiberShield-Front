@@ -34,7 +34,6 @@ const HomeTemplate = ({ products, loading, error, onAddToCart, cartCount }) => {
         {!loading && !error && (
           <ProductList products={products} onAddToCart={onAddToCart} />
         )}
-
       </main>
       <Footer />
     </div>
