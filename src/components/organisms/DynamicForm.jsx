@@ -81,15 +81,17 @@ const DynamicForm = ({
                     }
                   />
                 ) : (
-                  <Input
-                    label={field.label}
-                    name={field.name}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    value={formData[field.name] || ""}
-                    onChange={handleChange}
-                  />
-                )}
+                   <Input
+                     label={field.label}
+                     name={field.name}
+                     type={field.type}
+                     placeholder={field.placeholder}
+                     value={formData[field.name] || ""}
+                     onChange={handleChange}
+                     options={field.options}
+                     disabled={field.disabled}
+                   />
+                 )}
 
                 {serverErrors?.[field.name] && (
                   <span className="text-red-500 text-sm mt-1">
