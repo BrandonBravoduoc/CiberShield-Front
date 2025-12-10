@@ -12,18 +12,17 @@ class ShippingMethodService {
         return api.get(`${BASE_URL}/${id}`);
     }
 
-    createShippingMethod(shippingMethod) {
-        return api.post(`${BASE_URL}/`, shippingMethod);
+    createShippingMethod(dto) {
+        return api.post(BASE_URL, dto);
     }
 
-    patchShippingMethod(shippingMethod) {
-        return api.patch(`${BASE_URL}/${shippingMethod.id}`, shippingMethod);
+    patchShippingMethod(id, dto) {
+        return api.patch(`${BASE_URL}/${id}`, dto);
     }
 
     deleteShippingMethod(id) {
         return api.delete(`${BASE_URL}/${id}`);
     }
-
 }
 
 export default new ShippingMethodService();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
 
@@ -10,12 +10,15 @@ const DynamicForm = ({
   initialValues = {}
 }) => {
 
-  const [formData, setFormData] = useState(
-    fields.reduce((acc, field) => {
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    const initial = fields.reduce((acc, field) => {
       acc[field.name] = initialValues[field.name] ?? "";
       return acc;
-    }, {})
-  );
+    }, {});
+    setFormData(initial);
+  }, [fields, initialValues]);
 
   const handleChange = (e) => {
     const { name, type, files, value } = e.target;
@@ -48,7 +51,7 @@ const DynamicForm = ({
             name={field.name}
             type={field.type}
             placeholder={field.placeholder}
-            value={formData[field.name]}
+            value={formData[field.name] || ""}
             onChange={handleChange}
           />
 
@@ -57,23 +60,13 @@ const DynamicForm = ({
               {serverErrors[field.name]}
             </span>
           )}
-
         </div>
       ))}
 
-      <div className="flex justify-between gap-4">
-        <Button
-          type="button"
-          className="w-full bg-gray-700 hover:bg-gray-600"
-          onClick={() => window.history.back()}
-        >
-          Cancelar
-        </Button>
+      <Button type="submit" className="w-full">
+        {buttonText}
+      </Button>
 
-        <Button type="submit" className="w-full">
-          {buttonText}
-        </Button>
-      </div>
     </form>
   );
 };

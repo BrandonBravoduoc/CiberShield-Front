@@ -15,7 +15,6 @@ class OrderDetailService {
     deleteOrderDetail(id) {
         return api.delete(`${BASE_URL}/${id}`);
     }
-
 }
 
 export default new OrderDetailService();

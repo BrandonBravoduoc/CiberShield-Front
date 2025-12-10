@@ -27,7 +27,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
         phone: profile.contact.phone,
         street: profile.contact.addressInfo?.split(" ")[0] || "",
         number: profile.contact.addressInfo?.split(" ")[1] || "",
-        communeId: "" 
+        communeId: ""
       }
     : {
         userName: profile.userName,
@@ -63,6 +63,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
   const handleSubmit = async (form) => {
     try {
       setServerErrors(null);
+
       await userService.updateUser(
         {
           newUserName: form.userName,
@@ -82,7 +83,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
         });
       } else {
         await contactService.update({
-          id: profile.contact.id,  
+          id: profile.contact.id,
           name: form.name,
           lastName: form.lastName,
           phone: form.phone,
@@ -169,6 +170,14 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
               onSubmit={handleSubmit}
               serverErrors={serverErrors}
             />
+            <div className="flex gap-4 mt-4">
+              <Button
+                className="w-full bg-gray-700 hover:bg-gray-600"
+                onClick={() => setEditMode(false)}
+              >
+                Cancelar
+              </Button>
+            </div>
           </>
         )}
 

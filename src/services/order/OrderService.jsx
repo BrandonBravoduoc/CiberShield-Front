@@ -16,8 +16,8 @@ class OrderService {
         return api.post(BASE_URL, order);
     }
 
-    patchOrder(id, order) {
-        return api.patch(`${BASE_URL}/${id}`, order);
+    patchOrderStatus(id, statusDto) {
+        return api.patch(`${BASE_URL}/${id}/status`, statusDto);
     }
 
     deleteOrder(id) {

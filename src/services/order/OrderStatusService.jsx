@@ -12,18 +12,17 @@ class OrderStatusService {
         return api.get(`${BASE_URL}/${id}`);
     }
 
+    createOrderStatus(dto) {
+        return api.post(BASE_URL, dto);
+    }
+
+    patchOrderStatus(id, dto) {
+        return api.patch(`${BASE_URL}/${id}`, dto);
+    }
+
     deleteOrderStatus(id) {
         return api.delete(`${BASE_URL}/${id}`);
     }
-
-    createOrderStatus(orderStatus) {
-        return api.post(BASE_URL, orderStatus);
-    }
-
-    patchOrderStatus(id, orderStatus) {
-        return api.patch(`${BASE_URL}/${id}`, orderStatus);
-    }
-
 }
 
 export default new OrderStatusService();
