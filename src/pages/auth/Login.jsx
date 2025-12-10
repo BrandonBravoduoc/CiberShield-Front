@@ -13,18 +13,28 @@ const Login = () => {
 
   const handleLogin = async (formData) => {
     try {
-      const res = await authService.login(formData);
+      setServerErrors({});
 
-      if (res.token) {
-        login(res.user, res.token);
+      const data = await authService.login(formData); 
+      if (data.token) {
+        const normalizedUser = {
+          ...data.user,
+          username: data.user.userName
+        };
+
+        login(normalizedUser, data.token);
         navigate("/");
       }
+
     } catch (error) {
+      console.error("Login error:", error);
+
       setServerErrors({
-        general: error.response?.data?.error || "Error inesperado"
+        general: error.response?.data?.error || "Credenciales inválidas"
       });
     }
   };
+
 
   return (
     <AuthLayout
@@ -37,6 +47,7 @@ const Login = () => {
         onSubmit={handleLogin}
         serverErrors={serverErrors}
       />
+
       <p className="mt-10 text-center text-sm text-gray-400">
         ¿No tienes cuenta?{" "}
         <a href="/register" className="font-semibold text-indigo-400 hover:text-indigo-300">
