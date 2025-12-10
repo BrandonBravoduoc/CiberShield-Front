@@ -11,7 +11,7 @@ const ProductCard = ({ product, onAddToCart }) => {
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full border border-gray-100 group">
       <Link to={`/product/${id}`} className="block h-48 w-full overflow-hidden bg-gray-50 items-center justify-center p-4">
         <Image 
-          src={imageUrl || "https://via.placeholder.com/300"} 
+          src={imageUrl || "https://placehold.co/300x300?text=Imagen"}
           alt={productName} 
           className="object-contain h-full w-full group-hover:scale-105 transition-transform duration-300" 
         />
