@@ -19,7 +19,7 @@ class ProductService {
     }
 
     updateProduct(id, productFormData) {
-        return api.put(`${BASE_URL}/${id}`, productFormData, {
+        return api.patch(`${BASE_URL}/${id}`, productFormData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
     }
