@@ -64,7 +64,7 @@ const CartTemplate = ({ cartItems, onRemove, onUpdateQty, onCheckout }) => {
               onClick={onCheckout}
               disabled={cartItems.length === 0}
             >
-              Finalizar compra
+              Realizar compra
             </Button>
           </div>
 

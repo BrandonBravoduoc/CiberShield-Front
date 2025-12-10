@@ -21,37 +21,29 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
 
   const hasContact = profile.contact && profile.contact.id;
 
-  const initialValues = hasContact
-    ? {
-        userName: profile.userName,
-        email: profile.email,
-        name: profile.contact.name,
-        lastName: profile.contact.lastName,
-        phone: profile.contact.phone,
-        street: profile.contact.addressInfo?.split(" ")[0] || "",
-        number: profile.contact.addressInfo?.split(" ")[1] || "",
-        communeId: ""
-      }
-    : {
-        userName: profile.userName,
-        email: profile.email,
-        name: "",
-        lastName: "",
-        phone: "",
-        street: "",
-        number: "",
-        communeId: ""
-      };
+  // Crear initialValues incluyendo región y comuna
+  const initialValues = {
+    userName: profile.userName,
+    email: profile.email,
+
+    name: hasContact ? profile.contact.name : "",
+    lastName: hasContact ? profile.contact.lastName : "",
+    phone: hasContact ? profile.contact.phone : "",
+
+    street: hasContact ? profile.contact.addressInfo?.split(" ")[0] || "" : "",
+    number: hasContact ? profile.contact.addressInfo?.split(" ")[1] || "" : "",
+
+    regionId: hasContact ? profile.contact.region?.id || "" : "",
+    communeId: hasContact ? profile.contact.commune?.id || "" : ""
+  };
 
   const formatErrors = (err) => {
     const data = err?.response?.data;
-
     if (!data) return ["Error desconocido"];
     if (typeof data === "string") return [data];
     if (data.error) return [data.error];
     if (data.message) return [data.message];
     if (data.errors) return Object.values(data.errors);
-
     return ["Error desconocido"];
   };
 
@@ -67,6 +59,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
     try {
       setServerErrors(null);
 
+      // Actualizar usuario (email, username e imagen)
       await userService.updateUser(
         {
           newUserName: form.userName,
@@ -75,6 +68,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
         selectedImage
       );
 
+      // Crear o actualizar contacto
       if (!hasContact) {
         await contactService.create({
           name: form.name,
@@ -82,6 +76,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
           phone: form.phone,
           street: form.street,
           number: form.number,
+          regionId: form.regionId,
           communeId: form.communeId
         });
       } else {
@@ -92,6 +87,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
           phone: form.phone,
           street: form.street,
           number: form.number,
+          regionId: form.regionId,
           communeId: form.communeId
         });
       }
@@ -153,6 +149,8 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
                 <p><span className="font-semibold text-white">Apellido: </span>{profile.contact.lastName}</p>
                 <p><span className="font-semibold text-white">Teléfono: </span>{profile.contact.phone}</p>
                 <p><span className="font-semibold text-white">Dirección: </span>{profile.contact.addressInfo}</p>
+                <p><span className="font-semibold text-white">Región: </span>{profile.contact.region?.regionName}</p>
+                <p><span className="font-semibold text-white">Comuna: </span>{profile.contact.commune?.nameCommunity}</p>
               </>
             ) : (
               <p className="text-gray-400 italic">
@@ -164,6 +162,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
               <Button className="w-full" onClick={() => setEditMode(true)}>
                 Editar información
               </Button>
+
               {isAdmin() && (
                 <Button 
                   className="w-full bg-gray-700 hover:bg-gray-600" 
@@ -185,6 +184,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
               onSubmit={handleSubmit}
               serverErrors={serverErrors}
             />
+
             <div className="flex gap-4 mt-4">
               <Button
                 className="w-full bg-gray-700 hover:bg-gray-600"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../atoms/Input";
 import Button from "../atoms/Button";
+import Selector from "../molecules/Selector";
 
 const DynamicForm = ({
   fields = [],
@@ -8,7 +9,8 @@ const DynamicForm = ({
   buttonText = "Enviar",
   serverErrors = {},
   initialValues = {},
-  onFieldChange = null
+  onFieldChange = null,
+  onCancel = null
 }) => {
 
   const [formData, setFormData] = useState({});
@@ -16,12 +18,14 @@ const DynamicForm = ({
   useEffect(() => {
     const initial = {};
 
-    fields.forEach(field => {
+    fields.forEach((field) => {
       initial[field.name] = initialValues[field.name] ?? "";
     });
 
-    setFormData(initial);
+    initial["regionId"] = initialValues.regionId ?? "";
+    initial["communeId"] = initialValues.communeId ?? "";
 
+    setFormData(initial);
   }, [JSON.stringify(initialValues)]);
 
   const handleChange = (e) => {
@@ -29,12 +33,10 @@ const DynamicForm = ({
 
     setFormData({
       ...formData,
-      [name]: type === "file" ? files[0] : value,
+      [name]: type === "file" ? files[0] : value
     });
 
-    if (onFieldChange) {
-      onFieldChange(name, value);
-    }
+    if (onFieldChange) onFieldChange(name, value);
   };
 
   const handleSubmit = (e) => {
@@ -42,40 +44,88 @@ const DynamicForm = ({
     onSubmit(formData);
   };
 
+  // 🔥 Agrupación por filas
+  const rows = {};
+  fields.forEach((field) => {
+    const rowIndex = field.row || 0;
+
+    if (!rows[rowIndex]) rows[rowIndex] = [];
+    rows[rowIndex].push(field);
+  });
+
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
 
+      {/* Error general */}
       {serverErrors?.general && (
         <div className="text-red-600 text-sm bg-red-100 px-3 py-2 rounded">
           {serverErrors.general}
         </div>
       )}
 
-      {fields.map((field) => (
-        <div key={field.name} className="flex flex-col">
+      {/* 🔥 Renderizado por filas */}
+      {Object.keys(rows).map((rowIndex) => {
+        const rowFields = rows[rowIndex];
 
-          <Input
-            label={field.label}
-            name={field.name}
-            type={field.type}
-            placeholder={field.placeholder}
-            value={formData[field.name] || ""}
-            onChange={handleChange}
-            options={field.options}
-            disabled={field.disabled}
-          />
+        return (
+          <div
+            key={rowIndex}
+            className={`grid grid-cols-1 md:grid-cols-${rowFields.length} gap-4`}
+          >
+            {rowFields.map((field) => (
+              <div key={field.name} className="flex flex-col">
 
-          {serverErrors?.[field.name] && (
-            <span className="text-red-500 text-sm mt-1">
-              {serverErrors[field.name]}
-            </span>
-          )}
-        </div>
-      ))}
+                {field.type === "region-commune" ? (
+                  <Selector
+                    regionValue={formData.regionId}
+                    communeValue={formData.communeId}
+                    onChange={(changes) =>
+                      setFormData({ ...formData, ...changes })
+                    }
+                  />
+                ) : (
+                  <Input
+                    label={field.label}
+                    name={field.name}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    value={formData[field.name] || ""}
+                    onChange={handleChange}
+                  />
+                )}
 
-      <Button type="submit" className="w-full">
-        {buttonText}
-      </Button>
+                {serverErrors?.[field.name] && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {serverErrors[field.name]}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      })}
+
+      {/* BOTONES */}
+      <div className="flex justify-between mt-4">
+
+        {onCancel && (
+          <Button
+            type="button"
+            className="bg-gray-700 hover:bg-gray-600 w-40"
+            onClick={onCancel}
+          >
+            Cancelar
+          </Button>
+        )}
+
+        <Button
+          type="submit"
+          className="bg-indigo-600 hover:bg-indigo-500 w-40 ml-auto"
+        >
+          {buttonText}
+        </Button>
+
+      </div>
 
     </form>
   );
