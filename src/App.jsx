@@ -10,7 +10,6 @@ import Products from "./pages/admin/Products";
 import ProductForm from "./pages/admin/ProductForm";
 import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
-import CheckOut from "./pages/checkout/CheckOut";
 
 const App = () => {
     return (
@@ -19,7 +18,6 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/cart" element={<Cart/>} />
-            <Route path="/checkout" element={<Checkout />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/products" element={<Products />} />
