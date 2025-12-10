@@ -14,9 +14,6 @@ const HomeTemplate = ({ products, loading, error, onAddToCart, cartCount }) => {
           <Text variant="h1" className="text-4xl font-extrabold text-gray-900 tracking-tight">
             Nuestros Productos
           </Text>
-          <Text variant="p" className="mt-2 text-lg text-gray-600">
-            Hardware de alto rendimiento para tu seguridad y gaming.
-          </Text>
         </div>
 
         {loading && (
