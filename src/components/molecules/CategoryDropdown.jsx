@@ -47,7 +47,7 @@ const CategoryDropdown = () => {
                             {categories.map((cat) => (
                                 <li key={cat.id}>
                                     <Link
-                                        to={`/?search=${encodeURIComponent(cat.categoryName)}`} // Al hacer clic, busca por esa categoría
+                                        to={`/?search=${encodeURIComponent(cat.categoryName)}`} 
                                         className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
                                     >
                                         {cat.categoryName}
