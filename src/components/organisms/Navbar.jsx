@@ -12,42 +12,27 @@ const Navbar = ({ cartCount = 0 }) => {
   return (
     <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50 py-3 shadow-md">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* TOP NAV */}
         <div className="flex items-center justify-between gap-6 h-14">
-
-          {/* LOGO + DROPDOWN */}
           <div className="flex items-center gap-8 shrink-0">
             <Link to="/" className="flex items-center gap-2 group">
               <div className="h-9 w-9 bg-indigo-500 rounded-lg flex items-center justify-center shadow-lg group-hover:bg-indigo-400 transition-colors">
                 <span className="text-white font-bold text-xl">C</span>
               </div>
-
               <Text variant="h1" className="text-white font-bold text-2xl tracking-tight hidden sm:block">
                 CiberShield
               </Text>
             </Link>
-
             <div className="hidden md:block">
               <CategoryDropdown />
             </div>
           </div>
-
-          {/* SEARCH BAR (DESKTOP) */}
           <div className="hidden md:block flex-1 max-w-3xl">
             <SearchBar />
           </div>
-
-          {/* ACTIONS */}
           <div className="flex items-center gap-6 shrink-0">
-
-            {/* USER LOGGED */}
             {user ? (
               <div className="hidden lg:flex items-center gap-3 group relative">
                 <Link to="/profile" className="text-right leading-tight">
-                  <div className="text-xs text-gray-400 group-hover:text-indigo-300">
-                    Hola, {user.username || "Usuario"}
-                  </div>
                   <div className="text-sm font-bold text-white">Mi Cuenta</div>
                 </Link>
 
@@ -88,15 +73,12 @@ const Navbar = ({ cartCount = 0 }) => {
               </Link>
             )}
 
-            {/* --- NEW BUTTON: PRODUCTOS --- */}
             <Link
               to="/"
               className="text-gray-200 hover:text-indigo-400 text-sm font-semibold transition-colors hidden md:block"
             >
               Productos
             </Link>
-
-            {/* CART */}
             <Link
               to="/cart"
               className="relative flex items-center gap-2 text-gray-200 hover:text-indigo-400 transition-colors group"
@@ -120,8 +102,6 @@ const Navbar = ({ cartCount = 0 }) => {
 
               <span className="hidden xl:block font-semibold text-sm">Tu Carrito</span>
             </Link>
-
-            {/* MOBILE MENU BUTTON */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden text-gray-300 hover:text-white"
@@ -134,14 +114,10 @@ const Navbar = ({ cartCount = 0 }) => {
 
           </div>
         </div>
-
-        {/* MOBILE SEARCH */}
         <div className="md:hidden mt-4 pb-2">
           <SearchBar />
         </div>
       </div>
-
-      {/* MOBILE MENU */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-gray-800 border-t border-gray-700 absolute w-full left-0 shadow-xl z-40">
           <div className="px-4 py-4 space-y-4">
