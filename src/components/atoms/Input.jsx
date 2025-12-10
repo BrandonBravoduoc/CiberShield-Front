@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Button from "./Button";
 
 const Input = ({
@@ -10,6 +11,20 @@ const Input = ({
   options = [],
   disabled = false,
 }) => {
+  const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    if (value && typeof value === "object" && value instanceof File) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(value);
+    } else {
+      setPreview(null);
+    }
+  }, [value]);
+
   if (type === "file") {
     return (
       <div>
@@ -18,33 +33,52 @@ const Input = ({
         </label>
 
         <div className="flex justify-center px-6 py-8 border border-dashed border-gray-600 rounded-lg hover:border-indigo-500 transition">
-          <div className="text-center">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 16v-8m0 0l-3 3m3-3l3 3m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          {preview ? (
+            <div className="text-center">
+              <img
+                src={preview}
+                alt="Preview"
+                className="max-w-xs h-auto rounded-lg mb-4"
               />
-            </svg>
+              <label className="cursor-pointer font-medium text-indigo-400 hover:text-indigo-300">
+                Cambiar imagen
+                <input
+                  type="file"
+                  name={name}
+                  onChange={onChange}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          ) : (
+            <div className="text-center">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 16v-8m0 0l-3 3m3-3l3 3m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
 
-            <label className="mt-4 cursor-pointer font-medium text-indigo-400 hover:text-indigo-300">
-              Seleccionar imagen
-              <input
-                type="file"
-                name={name}
-                onChange={onChange}
-                className="hidden"
-              />
-            </label>
+              <label className="mt-4 cursor-pointer font-medium text-indigo-400 hover:text-indigo-300">
+                Seleccionar imagen
+                <input
+                  type="file"
+                  name={name}
+                  onChange={onChange}
+                  className="hidden"
+                />
+              </label>
 
-            <p className="mt-2 text-xs text-gray-500">PNG, JPG hasta 5MB</p>
-          </div>
+              <p className="mt-2 text-xs text-gray-500">PNG, JPG hasta 5MB</p>
+            </div>
+          )}
         </div>
       </div>
     );

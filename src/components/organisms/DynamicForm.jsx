@@ -44,7 +44,6 @@ const DynamicForm = ({
     onSubmit(formData);
   };
 
-  // 🔥 Agrupación por filas
   const rows = {};
   fields.forEach((field) => {
     const rowIndex = field.row || 0;
@@ -56,14 +55,12 @@ const DynamicForm = ({
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
 
-      {/* Error general */}
       {serverErrors?.general && (
         <div className="text-red-600 text-sm bg-red-100 px-3 py-2 rounded">
           {serverErrors.general}
         </div>
       )}
 
-      {/* 🔥 Renderizado por filas */}
       {Object.keys(rows).map((rowIndex) => {
         const rowFields = rows[rowIndex];
 
@@ -105,7 +102,6 @@ const DynamicForm = ({
         );
       })}
 
-      {/* BOTONES */}
       <div className="flex justify-between mt-4">
 
         {onCancel && (

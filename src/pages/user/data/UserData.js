@@ -1,6 +1,7 @@
 export const contactData = [
   { name: "userName", label: "Usuario", type: "text", placeholder: "Ej: Brandon123" },
   { name: "email", label: "Email", type: "email", placeholder: "correo@ejemplo.com" },
+  { name: "imageUser", label: "Foto de Perfil", type: "file", placeholder: "Sube tu foto de perfil" },
 
   {
     name: "regionCommune",

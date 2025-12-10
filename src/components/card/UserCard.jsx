@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Image from "../atoms/Image";
 import Text from "../atoms/Text";
@@ -15,9 +15,6 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
   const [serverErrors, setServerErrors] = useState(null);
 
   const [preview, setPreview] = useState(profile?.imageUser);
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const fileInputRef = useRef();
 
   const hasContact = profile.contact && profile.contact.id;
 
@@ -25,6 +22,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
   const initialValues = {
     userName: profile.userName,
     email: profile.email,
+    imageUser: null,
 
     name: hasContact ? profile.contact.name : "",
     lastName: hasContact ? profile.contact.lastName : "",
@@ -47,13 +45,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
     return ["Error desconocido"];
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
 
-    setPreview(URL.createObjectURL(file));
-    setSelectedImage(file);
-  };
 
   const handleSubmit = async (form) => {
     try {
@@ -63,7 +55,7 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
           newUserName: form.userName,
           newEmail: form.email
         },
-        selectedImage
+        form.imageUser
       );
 
       if (!hasContact) {
@@ -107,22 +99,6 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
             alt="User Avatar"
             className="h-28 w-28 rounded-full object-cover border border-gray-700 shadow-md"
           />
-
-          <input
-            type="file"
-            ref={fileInputRef}
-            className="hidden"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-
-          {editMode && (
-            <div className="flex gap-4 mt-4">
-              <Button onClick={() => fileInputRef.current.click()}>
-                Cambiar imagen
-              </Button>
-            </div>
-          )}
         </div>
 
         <div className="my-6 border-t border-gray-800"></div>
