@@ -58,8 +58,6 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
   const handleSubmit = async (form) => {
     try {
       setServerErrors(null);
-
-      // Actualizar usuario (email, username e imagen)
       await userService.updateUser(
         {
           newUserName: form.userName,
@@ -68,7 +66,6 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
         selectedImage
       );
 
-      // Crear o actualizar contacto
       if (!hasContact) {
         await contactService.create({
           name: form.name,
@@ -183,16 +180,8 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
               buttonText={hasContact ? "Actualizar datos" : "Crear contacto"}
               onSubmit={handleSubmit}
               serverErrors={serverErrors}
+              onCancel={() => setEditMode(false)}  
             />
-
-            <div className="flex gap-4 mt-4">
-              <Button
-                className="w-full bg-gray-700 hover:bg-gray-600"
-                onClick={() => setEditMode(false)}
-              >
-                Cancelar
-              </Button>
-            </div>
           </>
         )}
 
