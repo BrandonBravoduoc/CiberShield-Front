@@ -67,7 +67,7 @@ const TableBody = ({ columns, data, actions, emptyMessage, onUpdateQty }) => (
               )}
 
               {!["image", "product", "price", "quantity", "subtotal"].includes(col.key) && (
-                <span>{row[col.key]}</span>
+                <span>{col.render ? col.render(row) : row[col.key]}</span>
               )}
             </td>
           ))}
@@ -76,21 +76,25 @@ const TableBody = ({ columns, data, actions, emptyMessage, onUpdateQty }) => (
             <td className="px-6 py-4 text-sm flex gap-3">
               {actions.map((action) => (
                 <button
-                  key={action.id}
-                  onClick={() => action.handler(row)}
-                  className={`p-2 rounded ${
-                    action.variant === "danger"
-                      ? "text-red-600 hover:bg-red-900/30"
-                      : "text-blue-600 hover:bg-blue-900/30"
-                  }`}
-                  title={action.label}
-                >
-                  {action.variant === "danger" ? (
-                    <TrashIcon className="h-5 w-5" />
-                  ) : (
-                    <PencilIcon className="h-5 w-5" />
-                  )}
-                </button>
+                    key={action.id}
+                    onClick={() => action.handler(row)}
+                    className={`p-2 rounded ${
+                      action.variant === "danger"
+                        ? "text-red-600 hover:bg-red-900/30"
+                        : "text-blue-600 hover:bg-blue-900/30"
+                    }`}
+                    title={action.label}
+                  >
+                    {action.variant === "danger" && (
+                      <TrashIcon className="h-5 w-5" />
+                    )}
+                    {action.variant === "primary" && (
+                      <PencilIcon className="h-5 w-5" />
+                    )}
+                    {!["danger", "primary"].includes(action.variant) && (
+                      <PencilIcon className="h-5 w-5" />
+                    )}
+                  </button>
               ))}
             </td>
           )}
