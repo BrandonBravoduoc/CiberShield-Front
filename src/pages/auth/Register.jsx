@@ -23,8 +23,8 @@ const Register = () => {
       console.log("ERROR COMPLETO DEL BACKEND:", error.response);
 
       const backendError =
-        error.response?.data?.error ||       // Tu backend lo envía así
-        error.response?.data?.message ||     // Otras posibles respuestas
+        error.response?.data?.error ||       
+        error.response?.data?.message ||     
         JSON.stringify(error.response?.data) ||
         "Error inesperado";
 

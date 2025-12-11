@@ -19,7 +19,7 @@ const CartView = () => {
       items: cart.map((item) => ({
         productId: item.id,
         quantity: item.quantity,
-        shippingMethodId: 1 // por ahora fijo
+        shippingMethodId: 1 
       }))
     };
 

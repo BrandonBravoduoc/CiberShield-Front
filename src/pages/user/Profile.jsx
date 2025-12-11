@@ -38,15 +38,11 @@ const Profile = () => {
         setOrders([]);
         return;
       }
-
-      // Filtrar órdenes por userId
       const userIdStr = String(userId);
       const userOrders = res.data.filter(order => {
-        // Extrae el userId de la orden (puede venir como user.id o userId)
         const orderUserId = order.user?.id || order.userId;
         const orderUserIdStr = String(orderUserId);
-        
-        // Compara strings para evitar problemas de tipo
+
         return orderUserIdStr === userIdStr;
       });
 

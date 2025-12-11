@@ -45,8 +45,6 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
       loadRegion();
     }
   }, [hasContact, profile.contact?.addressInfo]);
-
-  // Crear initialValues incluyendo región y comuna
   const initialValues = {
     userName: profile.userName,
     email: profile.email,
