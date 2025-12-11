@@ -67,7 +67,7 @@ const DynamicForm = ({
         return (
           <div
             key={rowIndex}
-            className={`grid grid-cols-1 md:grid-cols-${rowFields.length} gap-4`}
+            className="flex flex-col gap-4"
           >
             {rowFields.map((field) => (
               <div key={field.name} className="flex flex-col">
@@ -104,7 +104,7 @@ const DynamicForm = ({
         );
       })}
 
-      <div className="flex justify-between mt-4">
+      <div className={`flex ${onCancel ? 'justify-between' : 'justify-center'} mt-4`}>
 
         {onCancel && (
           <Button
@@ -118,7 +118,7 @@ const DynamicForm = ({
 
         <Button
           type="submit"
-          className="bg-indigo-600 hover:bg-indigo-500 w-40 ml-auto"
+          className="bg-indigo-600 hover:bg-indigo-500 w-40"
         >
           {buttonText}
         </Button>
