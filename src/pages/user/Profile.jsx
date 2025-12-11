@@ -5,6 +5,7 @@ import UserCard from "../../components/card/UserCard";
 import ProfileLayout from "../../components/layouts/ProfileLayout";
 import OrderHistory from "../../components/card/OrderHistory";
 import { contactData } from "./data/UserData";
+import { getUserIdFromToken } from "../../utils/JwtUtil";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -22,11 +23,37 @@ const Profile = () => {
 
   const loadOrders = async () => {
     try {
+      const userId = getUserIdFromToken();
+      
+      if (!userId) {
+        console.error("Error: No se pudo obtener el userId del token");
+        setOrders([]);
+        return;
+      }
+
       const res = await OrderService.getAllOrders();
-      const userOrders = res.data.filter(o => o.userId === profile.id);
+      
+      if (!res.data || !Array.isArray(res.data)) {
+        console.warn("Error: La respuesta no contiene un array de órdenes");
+        setOrders([]);
+        return;
+      }
+
+      // Filtrar órdenes por userId
+      const userIdStr = String(userId);
+      const userOrders = res.data.filter(order => {
+        // Extrae el userId de la orden (puede venir como user.id o userId)
+        const orderUserId = order.user?.id || order.userId;
+        const orderUserIdStr = String(orderUserId);
+        
+        // Compara strings para evitar problemas de tipo
+        return orderUserIdStr === userIdStr;
+      });
+
       setOrders(userOrders);
     } catch (err) {
-      console.error("Error cargando pedidos", err);
+      console.error("Error cargando pedidos:", err);
+      setOrders([]);
     }
   };
 
