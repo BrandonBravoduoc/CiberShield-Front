@@ -1,12 +1,15 @@
 module.exports = function (config) {
  config.set({
-   frameworks: ['jasmine'],
-   files: [
-     'src/**/*.spec.jsx',
-   ],
-   preprocessors: {
-     'src/**/*.spec.jsx': ['webpack'],
-   },
+    frameworks: ['jasmine'],
+    files: [
+      'src/test/setupTests.js',
+      'src/test/**/*.spec.jsx',
+      'src/test/**/*.spec.js',
+    ],
+    preprocessors: {
+      'src/test/**/*.js': ['webpack'],
+      'src/test/**/*.jsx': ['webpack'],
+    },
    webpack: {
      mode: 'development',
      module: {
