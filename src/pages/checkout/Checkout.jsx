@@ -69,23 +69,17 @@ const Checkout = () => {
     if (!selectedMethod) return alert("Selecciona un método de pago.");
     if (!selectedShipping) return alert("Selecciona un método de envío.");
 
-    const cleanForm = {};
-    Object.keys(form).forEach((key) => {
-      if (typeof form[key] !== "object") cleanForm[key] = form[key];
-    });
-
-    
-   const dto = {
-    total,
-    paymentMethodId: Number(selectedMethod),
-    shippingMethodId: Number(selectedShipping),
-    cardInfo: cleanForm,
-    items: cartItems.map((i) => ({
-      productId: i.id,
-      quantity: i.quantity,
-      unitPrice: i.price,
-    })),
-  };
+    const dto = {
+      paymentMethodId: Number(selectedMethod),
+      shippingMethodId: Number(selectedShipping),
+      total,
+      cardInfo: form,
+      items: cartItems.map((i) => ({
+        productId: i.id,
+        quantity: i.quantity,
+        shippingMethodId: Number(selectedShipping)
+      }))
+    };
 
     try {
       const res = await OrderService.createOrder(dto);
