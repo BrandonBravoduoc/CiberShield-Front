@@ -56,10 +56,10 @@ const DynamicForm = ({
     <form className="space-y-6" onSubmit={handleSubmit}>
 
       {serverErrors?.general && (
-         <div className="bg-red-500/10 border border-red-500/50 text-red-400 text-sm px-4 py-3 rounded-lg">
-           {serverErrors.general}
-         </div>
-       )}
+        <div className="text-red-600 text-sm bg-red-100 px-3 py-2 rounded">
+          {serverErrors.general}
+        </div>
+      )}
 
       {Object.keys(rows).map((rowIndex) => {
         const rowFields = rows[rowIndex];
@@ -94,7 +94,7 @@ const DynamicForm = ({
                  )}
 
                 {serverErrors?.[field.name] && (
-                  <span className="text-red-400 text-xs mt-1.5">
+                  <span className="text-red-500 text-sm mt-1">
                     {serverErrors[field.name]}
                   </span>
                 )}
@@ -104,26 +104,26 @@ const DynamicForm = ({
         );
       })}
 
-      <div className="flex gap-3 pt-2">
+      <div className="flex justify-between mt-4">
 
-         {onCancel && (
-           <Button
-             type="button"
-             className="bg-gray-700 hover:bg-gray-600 flex-1"
-             onClick={onCancel}
-           >
-             Cancelar
-           </Button>
-         )}
+        {onCancel && (
+          <Button
+            type="button"
+            className="bg-gray-700 hover:bg-gray-600 w-40"
+            onClick={onCancel}
+          >
+            Cancelar
+          </Button>
+        )}
 
-         <Button
-           type="submit"
-           className="flex-1"
-         >
-           {buttonText}
-         </Button>
+        <Button
+          type="submit"
+          className="bg-indigo-600 hover:bg-indigo-500 w-40 ml-auto"
+        >
+          {buttonText}
+        </Button>
 
-       </div>
+      </div>
 
     </form>
   );

@@ -38,27 +38,22 @@ const Login = () => {
 
   return (
     <AuthLayout
-      title="Bienvenido de vuelta"
-      subtitle="Inicia sesión para continuar"
+      title="Sign in to your account"
+      subtitle="Ingresa tus credenciales para continuar"
     >
       <DynamicForm
         fields={loginData}
-        buttonText="Iniciar sesión"
+        buttonText="Sign in"
         onSubmit={handleLogin}
         serverErrors={serverErrors}
       />
 
-      <div className="pt-4 border-t border-gray-700">
-        <p className="text-center text-gray-400 text-sm">
-          ¿No tienes cuenta?{" "}
-          <a 
-            href="/register" 
-            className="font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
-          >
-            Crear una cuenta
-          </a>
-        </p>
-      </div>
+      <p className="mt-10 text-center text-sm text-gray-400">
+        ¿No tienes cuenta?{" "}
+        <a href="/register" className="font-semibold text-indigo-400 hover:text-indigo-300">
+          Crear una cuenta
+        </a>
+      </p>
     </AuthLayout>
   );
 };

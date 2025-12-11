@@ -88,10 +88,10 @@ const Input = ({
     return (
       <div>
         {label && (
-           <label className="block text-sm font-medium text-gray-200 mb-2">
-             {label}
-           </label>
-         )}
+          <label className="block text-sm font-medium text-gray-100 mb-1">
+            {label}
+          </label>
+        )}
 
         <select
           name={name}
@@ -132,11 +132,10 @@ const Input = ({
         onChange={onChange}
         placeholder={placeholder}
         className="
-          block w-full rounded-lg bg-gray-700/50 px-4 py-2.5
-          text-sm text-white placeholder-gray-400
-          border border-gray-600 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500
-          transition duration-200
-          focus:outline-none
+          block w-full rounded-md bg-white/5 px-3 py-1.5 
+          text-sm text-white outline outline-white/10
+          placeholder-gray-500
+          focus:outline-2 focus:outline-indigo-500
         "
       />
     </div>
