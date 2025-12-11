@@ -8,6 +8,7 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   useEffect(() => {
     fetchOrders();
@@ -42,6 +43,15 @@ const Orders = () => {
   ];
 
   const actions = [
+    {
+      id: "details",
+      label: "Ver Detalles",
+      variant: "info",
+      handler: (row) => {
+        setSelectedOrder(row);
+        setShowDetailsModal(true);
+      },
+    },
     {
       id: "status",
       label: "Cambiar Estado",
@@ -80,6 +90,69 @@ const Orders = () => {
           emptyMessage="No hay pedidos"
         />
       </div>
+
+      {showDetailsModal && selectedOrder && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 w-full max-w-2xl h-auto max-h-[85vh] overflow-y-auto">
+            <h2 className="text-2xl font-bold text-white mb-4">Detalles del Pedido</h2>
+            
+            <div className="grid grid-cols-2 gap-4 mb-6 text-gray-300">
+              <div>
+                <p className="text-gray-400 text-sm">Número de Pedido</p>
+                <p className="font-semibold">{selectedOrder.orderNumber}</p>
+              </div>
+              <div>
+                <p className="text-gray-400 text-sm">Fecha</p>
+                <p className="font-semibold">{selectedOrder.orderDate}</p>
+              </div>
+              <div>
+                <p className="text-gray-400 text-sm">Total</p>
+                <p className="font-semibold text-lg text-green-400">${selectedOrder.total?.toLocaleString?.("es-CL") || selectedOrder.total}</p>
+              </div>
+              <div>
+                <p className="text-gray-400 text-sm">Estado</p>
+                <p className="font-semibold">{selectedOrder.status?.name || "PENDIENTE"}</p>
+              </div>
+            </div>
+
+            <h3 className="text-lg font-bold text-white mb-3">Productos</h3>
+            <div className="bg-gray-800 rounded p-4 mb-6">
+              {selectedOrder.details && selectedOrder.details.length > 0 ? (
+                <div className="space-y-3">
+                  {selectedOrder.details.map((item, idx) => (
+                    <div key={idx} className="border-b border-gray-700 pb-3 last:border-b-0">
+                      <p className="text-white font-semibold">{item.product?.productName}</p>
+                      <div className="grid grid-cols-3 gap-4 text-sm text-gray-300 mt-2">
+                        <div>
+                          <p className="text-gray-400">Cantidad</p>
+                          <p>{item.quantity}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400">Precio Unitario</p>
+                          <p>${item.unitPrice?.toLocaleString?.("es-CL") || item.unitPrice}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400">Subtotal</p>
+                          <p className="text-green-400">${item.subtotal?.toLocaleString?.("es-CL") || item.subtotal}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400">No hay productos en este pedido</p>
+              )}
+            </div>
+
+            <button
+              onClick={() => setShowDetailsModal(false)}
+              className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded transition"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
 
       {showStatusModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">

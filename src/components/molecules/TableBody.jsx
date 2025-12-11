@@ -1,4 +1,4 @@
-import { TrashIcon, PlusIcon, MinusIcon, PencilIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, PlusIcon, MinusIcon, PencilIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
 
 const TableBody = ({ columns, data, actions, emptyMessage, onUpdateQty }) => (
   <tbody className="bg-gray-900">
@@ -81,20 +81,25 @@ const TableBody = ({ columns, data, actions, emptyMessage, onUpdateQty }) => (
                     className={`p-2 rounded ${
                       action.variant === "danger"
                         ? "text-red-600 hover:bg-red-900/30"
+                        : action.variant === "info"
+                        ? "text-cyan-600 hover:bg-cyan-900/30"
                         : "text-blue-600 hover:bg-blue-900/30"
                     }`}
                     title={action.label}
-                  >
+                    >
                     {action.variant === "danger" && (
                       <TrashIcon className="h-5 w-5" />
+                    )}
+                    {action.variant === "info" && (
+                      <InformationCircleIcon className="h-5 w-5" />
                     )}
                     {action.variant === "primary" && (
                       <PencilIcon className="h-5 w-5" />
                     )}
-                    {!["danger", "primary"].includes(action.variant) && (
+                    {!["danger", "primary", "info"].includes(action.variant) && (
                       <PencilIcon className="h-5 w-5" />
                     )}
-                  </button>
+                    </button>
               ))}
             </td>
           )}
