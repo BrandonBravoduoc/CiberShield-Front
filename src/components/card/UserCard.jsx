@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Image from "../atoms/Image";
 import Text from "../atoms/Text";
@@ -6,6 +6,7 @@ import Button from "../atoms/Button";
 import DynamicForm from "../organisms/DynamicForm";
 import userService from "../../services/user/UserService";
 import contactService from "../../services/user/ContactService";
+import locationService from "../../services/user/LocationService";
 import { isAdmin } from "../../utils/JwtUtil";
 
 const UserCard = ({ profile, fields, reloadProfile }) => {
@@ -13,10 +14,37 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
 
   const [editMode, setEditMode] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
+  const [regionName, setRegionName] = useState(null);
 
   const [preview, setPreview] = useState(profile?.imageUser);
 
   const hasContact = profile.contact && profile.contact.id;
+
+  useEffect(() => {
+    if (hasContact && profile.contact.addressInfo) {
+      const loadRegion = async () => {
+        try {
+          const communeName = profile.contact.addressInfo.split(",")[1]?.trim();
+          if (!communeName) return;
+
+          const regions = await locationService.getRegions();
+          
+          for (const region of regions) {
+            const communes = await locationService.getCommunesByRegion(region.id);
+            const found = communes.find(c => c.nameCommunity === communeName);
+            if (found) {
+              setRegionName(region.regionName);
+              break;
+            }
+          }
+        } catch (err) {
+          console.error("Error cargando región:", err);
+        }
+      };
+
+      loadRegion();
+    }
+  }, [hasContact, profile.contact?.addressInfo]);
 
   // Crear initialValues incluyendo región y comuna
   const initialValues = {
@@ -117,19 +145,43 @@ const UserCard = ({ profile, fields, reloadProfile }) => {
             <p><span className="font-semibold text-white">Email: </span>{profile.email}</p>
 
             {hasContact ? (
-              <>
-                <p><span className="font-semibold text-white">Nombre: </span>{profile.contact.name}</p>
-                <p><span className="font-semibold text-white">Apellido: </span>{profile.contact.lastName}</p>
-                <p><span className="font-semibold text-white">Teléfono: </span>{profile.contact.phone}</p>
-                <p><span className="font-semibold text-white">Dirección: </span>{profile.contact.addressInfo}</p>
-                <p><span className="font-semibold text-white">Región: </span>{profile.contact.region?.regionName}</p>
-                <p><span className="font-semibold text-white">Comuna: </span>{profile.contact.commune?.nameCommunity}</p>
-              </>
-            ) : (
-              <p className="text-gray-400 italic">
-                No tienes contacto registrado. Crea uno desde el botón "Editar información".
-              </p>
-            )}
+               <>
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <p className="text-gray-400 text-xs uppercase tracking-wide">Nombre</p>
+                    <p className="text-white font-medium">{profile.contact.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-xs uppercase tracking-wide">Apellido</p>
+                    <p className="text-white font-medium">{profile.contact.lastName}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-xs uppercase tracking-wide">Teléfono</p>
+                    <p className="text-white font-medium">{profile.contact.phone}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-xs uppercase tracking-wide">Dirección</p>
+                    <p className="text-white font-medium">{profile.contact.addressInfo?.split(",")[0]}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-xs uppercase tracking-wide">Comuna</p>
+                    <p className="text-white font-medium">
+                      {profile.contact.addressInfo?.split(",")[1]?.trim() || "No especificada"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-xs uppercase tracking-wide">Región</p>
+                    <p className="text-white font-medium">
+                      {regionName || "Cargando..."}
+                    </p>
+                  </div>
+                </div>
+               </>
+             ) : (
+               <p className="text-gray-400 italic">
+                 No tienes contacto registrado. Crea uno desde el botón "Editar información".
+               </p>
+             )}
 
             <div className="flex flex-col gap-2 mt-3">
               <Button className="w-full" onClick={() => setEditMode(true)}>
