@@ -30,11 +30,12 @@ const ProductDetail = () => {
     }
   }, [id]);
 
-  const handleAddToCart = (product) => {
-    console.log("Agregando al carrito:", product);
+ const handleAddToCart = (product) => {
+    console.log(`Agregado al carrito: ${product.productName}`);
     addToCart(product);
     setCartCount(prev => prev + 1);
   };
+
 
   return (
     <ProductDetailTemplate 
