@@ -9,7 +9,8 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cartCount, setCartCount] = useState(0); 
+  const [cartCount, setCartCount] = useState(0);
+  const {cartItems, addToCart } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
